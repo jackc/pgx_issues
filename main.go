@@ -2,24 +2,50 @@ package main
 
 import (
 	"context"
-	"os"
+	"database/sql"
+	"log"
 
-	"github.com/jackc/pgconn"
+	_ "github.com/jackc/pgx/v4/stdlib"
+	"golang.org/x/sync/errgroup"
 )
 
-func must(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
-
 func main() {
-	conn, err := pgconn.Connect(context.Background(), os.Getenv("DATABASE_URL"))
-	must(err)
-	defer conn.Close(context.Background())
+	db, err := sql.Open("pgx", "")
+	if err != nil {
+		log.Fatalln(err)
+	}
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-	conn.Exec(ctx, "SELECT table_name FROM information_schema.tables")
-	conn.Close(ctx)
+	g, ctx := errgroup.WithContext(context.Background())
+
+	for i := 0; i < 50; i++ {
+		g.Go(func() error {
+			tx, err := db.BeginTx(ctx, nil)
+			if err != nil {
+				log.Println(err)
+				return err
+			}
+
+			rows, err := tx.QueryContext(ctx, "SELECT table_name FROM information_schema.tables")
+			if err != nil {
+				log.Println(err)
+				return err
+			}
+
+			if !rows.Next() {
+				panic("no rows")
+			}
+			rows.Close()
+			if rows.Err() != nil {
+				log.Println("rows.Err()", err)
+			}
+
+			if err := tx.Rollback(); err != nil {
+				log.Println(err)
+			}
+
+			return nil
+		})
+	}
+
+	_ = g.Wait()
 }
