@@ -2,37 +2,24 @@ package main
 
 import (
 	"context"
-	"fmt"
-	"log"
 	"os"
 
-	"github.com/jackc/pgtype"
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgconn"
 )
 
-func main() {
-	config, err := pgx.ParseConfig(os.Getenv("DATABASE_URL"))
+func must(err error) {
 	if err != nil {
-		log.Fatalln(err)
+		panic(err)
 	}
+}
 
-	conn, err := pgx.ConnectConfig(context.Background(), config)
-	if err != nil {
-		log.Fatalln(err)
-	}
+func main() {
+	conn, err := pgconn.Connect(context.Background(), os.Getenv("DATABASE_URL"))
+	must(err)
 	defer conn.Close(context.Background())
 
-	_, err = conn.Exec(context.Background(), `drop type if exists custom; create type custom as (a int, b text);`)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	genericBinary := &pgtype.GenericBinary{}
-	err = conn.QueryRow(context.Background(), `select '(42,foo)'::custom`, pgx.QueryResultFormats{pgx.BinaryFormatCode}).Scan(genericBinary)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	fmt.Println(genericBinary.Bytes)
-
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	conn.Exec(ctx, "SELECT table_name FROM information_schema.tables")
+	conn.Close(ctx)
 }
