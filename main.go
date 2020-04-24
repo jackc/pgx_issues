@@ -3,72 +3,87 @@ package main
 import (
 	"context"
 	"log"
+	"math/rand"
 	"os"
+	"strconv"
 	"time"
 
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgconn"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 func main() {
-	config, err := pgx.ParseConfig(os.Getenv("DATABASE_URL"))
+	var connCount = int(30)
+	var queriesPerConn = int(1000)
+
+	n, err := strconv.ParseInt(os.Getenv("CONN_COUNT"), 10, 32)
+	if err == nil {
+		connCount = int(n)
+	}
+	n, err = strconv.ParseInt(os.Getenv("QUERIES_PER_CONN"), 10, 32)
+	if err == nil {
+		queriesPerConn = int(n)
+	}
+
+	log.Printf("connCount: %d, queriesPerConn: %d\n", connCount, queriesPerConn)
+
+	config, err := pgxpool.ParseConfig(os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Fatalln(err)
 	}
-	config.PreferSimpleProtocol = true
+	config.MaxConns = int32(connCount)
+	config.ConnConfig.PreferSimpleProtocol = true
 
-	busyConn, err := pgx.ConnectConfig(context.Background(), config)
+	dbpool, err := pgxpool.ConnectConfig(context.Background(), config)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	defer busyConn.Close(context.Background())
-
-	protocolPID, sqlPID, secretKey, err := getConnInfo(busyConn)
-	if err != nil {
-		log.Fatalf("failed to get busyConn info: %v\n", err)
-	}
-	log.Printf("[busyConn]: protocolPID=%d, sqlPID=%d, secretKey=%d\n", protocolPID, sqlPID, secretKey)
-
-	cancelConn, err := pgx.ConnectConfig(context.Background(), config)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	defer cancelConn.Close(context.Background())
-
-	protocolPID, sqlPID, secretKey, err = getConnInfo(cancelConn)
-	if err != nil {
-		log.Fatalf("failed to get cancelConn info: %v\n", err)
-	}
-	log.Printf("[cancelConn]: protocolPID=%d, sqlPID=%d, secretKey=%d\n", protocolPID, sqlPID, secretKey)
+	defer dbpool.Close()
 
 	doneChan := make(chan struct{})
 
-	go func() {
-		sql := `select pg_sleep(10)`
-		log.Printf("[busyConn] executing: %s\n", sql)
-		_, err := busyConn.Exec(context.Background(), sql)
-		if err == nil {
-			log.Printf("[busyConn] was not interrupted\n")
-		} else {
-			log.Printf("[busyConn] err: %v\n", err)
-		}
+	for i := 0; i < connCount; i++ {
+		go func() {
+			stressTest(dbpool, queriesPerConn)
+			doneChan <- struct{}{}
+		}()
+	}
 
-		doneChan <- struct{}{}
-	}()
+	for i := 0; i < connCount; i++ {
+		<-doneChan
+	}
 
-	go func() {
-		log.Printf("[cancelConn]: waiting for other conn to run query...\n")
-		time.Sleep(2 * time.Second)
-		log.Printf("[cancelConn]: sending CancelRequest\n")
-		err := cancelConn.PgConn().CancelRequest(context.Background())
-		log.Printf("[cancelConn]: CancelRequest err: %v\n", err)
-		doneChan <- struct{}{}
-	}()
-
-	<-doneChan
-	<-doneChan
+	log.Println("No cancel errors detected.")
 }
 
-func getConnInfo(conn *pgx.Conn) (protocolPID uint32, sqlPID uint32, secretKey uint32, err error) {
-	err = conn.QueryRow(context.Background(), "select pg_backend_pid()").Scan(&sqlPID)
-	return conn.PgConn().PID(), sqlPID, conn.PgConn().SecretKey(), err
+func stressTest(dbpool *pgxpool.Pool, queriesPerConn int) {
+	for i := 0; i < queriesPerConn; i++ {
+		n := rand.Float64()
+		if n < 0.05 {
+			// Slow query that is never canceled
+			rows, _ := dbpool.Query(context.Background(), "select n, pg_sleep(0.001) from generate_series(1, 200) n")
+			rows.Close()
+			if rows.Err() != nil {
+				log.Fatalf("A slow query that should never be canceled failed: %v", rows.Err())
+			}
+		} else if n < 0.9 {
+			// Fast query that is never canceled
+			rows, _ := dbpool.Query(context.Background(), "select n from generate_series(1, 100) n")
+			rows.Close()
+			if rows.Err() != nil {
+				log.Fatalf("A fast query that should never be canceled failed: %v", rows.Err())
+			}
+		} else {
+			// Query that is canceled
+			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Millisecond)
+			rows, _ := dbpool.Query(ctx, "select pg_sleep(10)")
+			rows.Close()
+			if rows.Err() == nil {
+				log.Fatalf("A query that should have been canceled was not")
+			} else if !pgconn.Timeout(rows.Err()) {
+				log.Fatalf("A query that should have been canceled did not get a timeout error")
+			}
+			cancel()
+		}
+	}
 }
