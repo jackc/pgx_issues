@@ -1,0 +1,43 @@
+I210529 15:49:39.737429 1 util/log/file_sync_buffer.go:238 ⋮ [config]   file created at: 2021/05/29 15:49:39
+I210529 15:49:39.737441 1 util/log/file_sync_buffer.go:238 ⋮ [config]   running on machine: ‹glados›
+I210529 15:49:39.737447 1 util/log/file_sync_buffer.go:238 ⋮ [config]   binary: CockroachDB CCL v21.1.1 (x86_64-apple-darwin19, built 2021/05/24 15:00:00, go1.15.11)
+I210529 15:49:39.737452 1 util/log/file_sync_buffer.go:238 ⋮ [config]   arguments: ‹[cockroach start-single-node --insecure]›
+I210529 15:49:39.737458 1 util/log/file_sync_buffer.go:238 ⋮ [config]   line format: [IWEF]yymmdd hh:mm:ss.uuuuuu goid file:line msg utf8=✓
+W210529 15:49:39.737317 1 1@cli/start.go:992 ⋮ [-] 1  ALL SECURITY CONTROLS HAVE BEEN DISABLED!
+W210529 15:49:39.737317 1 1@cli/start.go:992 ⋮ [-] 1 +
+W210529 15:49:39.737317 1 1@cli/start.go:992 ⋮ [-] 1 +This mode is intended for non-production testing only.
+W210529 15:49:39.737317 1 1@cli/start.go:992 ⋮ [-] 1 +
+W210529 15:49:39.737317 1 1@cli/start.go:992 ⋮ [-] 1 +In this mode:
+W210529 15:49:39.737317 1 1@cli/start.go:992 ⋮ [-] 1 +- Your cluster is open to any client that can access ‹any of your IP addresses›.
+W210529 15:49:39.737317 1 1@cli/start.go:992 ⋮ [-] 1 +- Intruders with access to your machine or network can observe client-server traffic.
+W210529 15:49:39.737317 1 1@cli/start.go:992 ⋮ [-] 1 +- Intruders can log in without password and read or write any data in the cluster.
+W210529 15:49:39.737317 1 1@cli/start.go:992 ⋮ [-] 1 +- Intruders can consume all your server's resources and cause unavailability.
+I210529 15:49:39.737616 1 1@cli/start.go:1002 ⋮ [-] 2  To start a secure server without mandating TLS for clients,
+I210529 15:49:39.737616 1 1@cli/start.go:1002 ⋮ [-] 2 +consider --accept-sql-without-tls instead. For other options, see:
+I210529 15:49:39.737616 1 1@cli/start.go:1002 ⋮ [-] 2 +
+I210529 15:49:39.737616 1 1@cli/start.go:1002 ⋮ [-] 2 +- ‹https://go.crdb.dev/issue-v/53404/v21.1›
+I210529 15:49:39.737616 1 1@cli/start.go:1002 ⋮ [-] 2 +- https://www.cockroachlabs.com/docs/v21.1/secure-a-cluster.html
+W210529 15:49:39.737660 1 1@cli/start.go:958 ⋮ [-] 3  ‹Using the default setting for --cache (128 MiB).›
+W210529 15:49:39.737660 1 1@cli/start.go:958 ⋮ [-] 3 +‹  A significantly larger value is usually needed for good performance.›
+W210529 15:49:39.737660 1 1@cli/start.go:958 ⋮ [-] 3 +‹  If you have a dedicated server a reasonable setting is --cache=.25 (4.0 GiB).›
+I210529 15:49:39.737684 1 1@cli/start.go:1031 ⋮ [-] 4  ‹CockroachDB CCL v21.1.1 (x86_64-apple-darwin19, built 2021/05/24 15:00:00, go1.15.11)›
+I210529 15:49:39.738171 1 server/config.go:431 ⋮ [-] 5  system total memory: ‹16 GiB›
+I210529 15:49:39.738186 1 server/config.go:433 ⋮ [-] 6  server configuration:
+I210529 15:49:39.738186 1 server/config.go:433 ⋮ [-] 6 +‹max offset             500000000›
+I210529 15:49:39.738186 1 server/config.go:433 ⋮ [-] 6 +‹cache size             128 MiB›
+I210529 15:49:39.738186 1 server/config.go:433 ⋮ [-] 6 +‹SQL memory pool size   4.0 GiB›
+I210529 15:49:39.738186 1 server/config.go:433 ⋮ [-] 6 +‹scan interval          10m0s›
+I210529 15:49:39.738186 1 server/config.go:433 ⋮ [-] 6 +‹scan min idle time     10ms›
+I210529 15:49:39.738186 1 server/config.go:433 ⋮ [-] 6 +‹scan max idle time     1s›
+I210529 15:49:39.738186 1 server/config.go:433 ⋮ [-] 6 +‹event log enabled      true›
+I210529 15:49:39.738247 1 1@cli/start.go:943 ⋮ [-] 7  process identity: ‹uid 501 euid 501 gid 20 egid 20›
+I210529 15:49:39.868033 1 1@cli/start.go:1111 ⋮ [-] 8  GEOS loaded from directory ‹/usr/local/lib/cockroach›
+I210529 15:49:39.868113 1 1@cli/start.go:510 ⋮ [-] 9  starting cockroach node
+I210529 15:49:40.309400 23 server/config.go:568 ⋮ [n?] 10  1 storage engine‹› initialized
+I210529 15:49:40.309460 23 server/config.go:571 ⋮ [n?] 11  ‹Pebble cache size: 128 MiB›
+I210529 15:49:40.309472 23 server/config.go:571 ⋮ [n?] 12  ‹store 0: RocksDB, max size 0 B, max open file limit 10000›
+I210529 15:49:40.467296 23 1@server/server.go:913 ⋮ [n?] 13  monitoring forward clock jumps based on server.clock.forward_jump_check_enabled
+E210529 15:49:40.510783 1 1@cli/error.go:399 ⋮ [-] 14  ‹ERROR: cannot dial server.›
+E210529 15:49:40.510783 1 1@cli/error.go:399 ⋮ [-] 14 +‹Is the server running?›
+E210529 15:49:40.510783 1 1@cli/error.go:399 ⋮ [-] 14 +‹If the server is running, check --host client-side and --advertise server-side.›
+E210529 15:49:40.510783 1 1@cli/error.go:399 ⋮ [-] 14 +‹cockroach server exited with error: consider changing the port via --http-addr: listen tcp :8080: bind: address already in use›

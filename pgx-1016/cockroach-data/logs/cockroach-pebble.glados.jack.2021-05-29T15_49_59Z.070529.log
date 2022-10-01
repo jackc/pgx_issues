@@ -1,0 +1,19 @@
+I210529 15:49:59.148620 14 util/log/file_sync_buffer.go:238 ⋮ [config]   file created at: 2021/05/29 15:49:59
+I210529 15:49:59.148652 14 util/log/file_sync_buffer.go:238 ⋮ [config]   running on machine: ‹glados›
+I210529 15:49:59.148667 14 util/log/file_sync_buffer.go:238 ⋮ [config]   binary: CockroachDB CCL v21.1.1 (x86_64-apple-darwin19, built 2021/05/24 15:00:00, go1.15.11)
+I210529 15:49:59.148683 14 util/log/file_sync_buffer.go:238 ⋮ [config]   arguments: ‹[cockroach start-single-node --insecure]›
+I210529 15:49:59.148703 14 util/log/file_sync_buffer.go:238 ⋮ [config]   line format: [IWEF]yymmdd hh:mm:ss.uuuuuu goid file:line msg utf8=✓
+I210529 15:49:59.148267 14 3@vendor/github.com/cockroachdb/pebble/open.go:305 ⋮ [n?,pebble] 1  [JOB 1] WAL created 000004
+I210529 15:49:59.217305 14 3@vendor/github.com/cockroachdb/pebble/version_set.go:457 ⋮ [n?,pebble] 2  [JOB 1] MANIFEST created 000005
+I210529 15:49:59.239388 115 3@vendor/github.com/cockroachdb/pebble/table_stats.go:118 ⋮ [n?,pebble] 3  [JOB 2] all initial table stats loaded
+I210529 15:49:59.239532 114 3@vendor/github.com/cockroachdb/pebble/compaction.go:2766 ⋮ [n?,pebble] 4  [JOB 1] WAL deleted 000002
+I210529 15:49:59.240081 114 3@vendor/github.com/cockroachdb/pebble/compaction.go:2773 ⋮ [n?,pebble] 5  [JOB 1] MANIFEST deleted 000001
+I210529 15:49:59.314251 14 3@vendor/github.com/cockroachdb/pebble/version_set.go:156 ⋮ [n?,pebble] 6  [JOB 1] MANIFEST created 000001
+I210529 15:49:59.335281 14 3@vendor/github.com/cockroachdb/pebble/open.go:305 ⋮ [n?,pebble] 7  [JOB 1] WAL created 000002
+I210529 15:49:59.378189 56 3@vendor/github.com/cockroachdb/pebble/table_stats.go:118 ⋮ [n?,pebble] 8  [JOB 2] all initial table stats loaded
+I210529 15:50:00.589211 182 3@vendor/github.com/cockroachdb/pebble/db.go:1449 ⋮ [n1,pebble] 9  [JOB 3] WAL created 000007
+I210529 15:50:10.664210 260 3@vendor/github.com/cockroachdb/pebble/db.go:1449 ⋮ [n1,pebble] 10  [JOB 4] WAL created 000008
+I210529 15:50:40.663782 184 3@vendor/github.com/cockroachdb/pebble/db.go:1449 ⋮ [n1,pebble] 11  [JOB 5] WAL created 000009
+I210529 15:51:40.658018 242 3@vendor/github.com/cockroachdb/pebble/db.go:1449 ⋮ [n1,pebble] 12  [JOB 6] WAL created 000010
+I210529 15:53:50.651550 209 3@vendor/github.com/cockroachdb/pebble/db.go:1449 ⋮ [n1,pebble] 13  [JOB 7] WAL created 000011
+I210529 15:58:10.718728 221 3@vendor/github.com/cockroachdb/pebble/db.go:1449 ⋮ [n1,pebble] 14  [JOB 8] WAL created 000012

@@ -1,0 +1,32 @@
+package main
+
+import (
+	"log"
+	"os"
+
+	_ "github.com/jackc/pgx/v5/stdlib"
+	"github.com/jmoiron/sqlx"
+)
+
+type Record struct {
+	FooFooFooFoo int32  `db:"foofoofoo"`
+	BarBarBar    int32  `db:"barbarbar"`
+	BazBazBaz    int32  `db:"bazbazbaz"`
+	QuzQuzQuz    string `db:"quzquzquz"`
+}
+
+func main() {
+	db, err := sqlx.Connect("pgx", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	for i := 0; i < 200; i++ {
+		records := []Record{}
+		err := db.Select(&records, "select 1 as foofoofoo, 2 as barbarbar, 3 as bazbazbaz, array_agg(4) as quzquzquz from generate_series(1, 10000) n")
+		if err != nil {
+			log.Println(err)
+		}
+	}
+}

@@ -1,0 +1,11 @@
+I210529 15:49:40.235553 23 util/log/file_sync_buffer.go:238 ⋮ [config]   file created at: 2021/05/29 15:49:40
+I210529 15:49:40.235575 23 util/log/file_sync_buffer.go:238 ⋮ [config]   running on machine: ‹glados›
+I210529 15:49:40.235585 23 util/log/file_sync_buffer.go:238 ⋮ [config]   binary: CockroachDB CCL v21.1.1 (x86_64-apple-darwin19, built 2021/05/24 15:00:00, go1.15.11)
+I210529 15:49:40.235592 23 util/log/file_sync_buffer.go:238 ⋮ [config]   arguments: ‹[cockroach start-single-node --insecure]›
+I210529 15:49:40.235602 23 util/log/file_sync_buffer.go:238 ⋮ [config]   line format: [IWEF]yymmdd hh:mm:ss.uuuuuu goid file:line msg utf8=✓
+I210529 15:49:40.234377 23 3@vendor/github.com/cockroachdb/pebble/version_set.go:156 ⋮ [n?,pebble] 1  [JOB 1] MANIFEST created 000001
+I210529 15:49:40.257240 23 3@vendor/github.com/cockroachdb/pebble/open.go:305 ⋮ [n?,pebble] 2  [JOB 1] WAL created 000002
+I210529 15:49:40.309438 74 3@vendor/github.com/cockroachdb/pebble/table_stats.go:118 ⋮ [n?,pebble] 3  [JOB 2] all initial table stats loaded
+I210529 15:49:40.386403 23 3@vendor/github.com/cockroachdb/pebble/version_set.go:156 ⋮ [n?,pebble] 4  [JOB 1] MANIFEST created 000001
+I210529 15:49:40.408392 23 3@vendor/github.com/cockroachdb/pebble/open.go:305 ⋮ [n?,pebble] 5  [JOB 1] WAL created 000002
+I210529 15:49:40.452520 132 3@vendor/github.com/cockroachdb/pebble/table_stats.go:118 ⋮ [n?,pebble] 6  [JOB 2] all initial table stats loaded

@@ -1,0 +1,6 @@
+I210529 15:49:59.098080 1 util/log/file_sync_buffer.go:238 ⋮ [config]   file created at: 2021/05/29 15:49:59
+I210529 15:49:59.098099 1 util/log/file_sync_buffer.go:238 ⋮ [config]   running on machine: ‹glados›
+I210529 15:49:59.098107 1 util/log/file_sync_buffer.go:238 ⋮ [config]   binary: CockroachDB CCL v21.1.1 (x86_64-apple-darwin19, built 2021/05/24 15:00:00, go1.15.11)
+I210529 15:49:59.098113 1 util/log/file_sync_buffer.go:238 ⋮ [config]   arguments: ‹[cockroach start-single-node --insecure]›
+I210529 15:49:59.098124 1 util/log/file_sync_buffer.go:238 ⋮ [config]   line format: [IWEF]yymmdd hh:mm:ss.uuuuuu goid file:line msg utf8=✓
+I210529 15:49:59.097847 1 util/log/flags.go:180  [-] 1  stderr capture started
