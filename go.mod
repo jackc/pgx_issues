@@ -2,7 +2,7 @@ module github.com/jackc/pgx_issues
 
 go 1.18
 
-// replace github.com/jackc/pgx/v5 => ../pgx
+replace github.com/jackc/pgx/v5 => ../pgx
 
 // replace github.com/jackc/pgx/v4 => ../pgx
 
@@ -17,6 +17,7 @@ require (
 	github.com/jackc/pgx/v5 v5.0.1
 	github.com/lib/pq v1.10.7
 	github.com/shopspring/decimal v1.3.1
+	github.com/vgarvardt/pgx-google-uuid/v5 v5.0.0
 )
 
 require (
@@ -27,6 +28,7 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b // indirect
 	github.com/jackc/puddle v1.3.0 // indirect
 	github.com/jackc/puddle/v2 v2.0.0 // indirect
-	golang.org/x/crypto v0.0.0-20220926161630-eccd6366d1be // indirect
-	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/crypto v0.0.0-20221005025214-4161e89ecf1b // indirect
+	golang.org/x/sync v0.1.0 // indirect
+	golang.org/x/text v0.3.8 // indirect
 )

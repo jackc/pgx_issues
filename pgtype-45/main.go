@@ -4,14 +4,14 @@ import (
 	"database/sql"
 	"log"
 
-	"github.com/jackc/pgtype"
-	"github.com/jackc/pgx/v4"
-	"github.com/jackc/pgx/v4/stdlib"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgtype"
+	"github.com/jackc/pgx/v5/stdlib"
 )
 
 func main() {
 	connConfig, _ := pgx.ParseConfig("")
-	connConfig.PreferSimpleProtocol = true
+	connConfig.DefaultQueryExecMode = pgx.QueryExecModeSimpleProtocol
 	conn, err := sql.Open("pgx", stdlib.RegisterConnConfig(connConfig))
 	//conn, err := pgx.ConnectConfig(ctx, connConfig)
 	if err != nil {
@@ -28,7 +28,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	dataJSON := &pgtype.Text{String: `{"foo": "bar"}`, Status: pgtype.Present}
+	dataJSON := &pgtype.Text{String: `{"foo": "bar"}`, Valid: true}
 	commandTag, err := conn.Exec("insert into pgx514(data) values($1)", dataJSON)
 	if err == nil {
 		log.Println("pgtype.JSON", commandTag)
